@@ -17,3 +17,24 @@ export const GetIniatorSignal = () => {
     type: 'server/GetIniatorSignal'
   }
 }
+
+export const SendFile = (file) => {
+  return {
+    type: 'server/sendfile',
+    data: file
+  }
+}
+
+export const CueVideo = (url) => {
+  return {
+    type: 'server/CueVideo',
+    data: url
+  }
+}
+
+export const VideoStateChange = (state) => {
+  return {
+    type: 'server/VideoStateChange',
+    data: state
+  }
+}

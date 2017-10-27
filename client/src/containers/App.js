@@ -97,16 +97,13 @@ class App extends Component {
       VideoChat({ initiator, signal: data})
     })
 
-    const self = this
     peer.on('stream', function(peer_stream) {
-      self.video_source = peer_stream
-      console.log('streaming')
-      self.setState({ videoStreamStarted: true })
+      // let video_source = window.URL.createObjectURL(peer_stream)
       var video = document.createElement('video')
-      video.src = window.URL.createObjectURL(stream)
+      console.log('streaming', video)
+      video.src = window.URL.createObjectURL(peer_stream)
       video.play()
       document.getElementById('videohere').appendChild(video)
-      // $('#videohere').innerHTML = video
     })
     // console.log('peer', )
     // var myVidStream = new Peer({ initiator: initiator, stream: stream })
@@ -139,8 +136,7 @@ class App extends Component {
 
   render() {
     const { videoStreamStarted } = this.state
-    const { chatty } = this.props
-    console.log('chatty', chatty)
+    // const { chatty } = this.props
     console.log('videoStreamStarted', videoStreamStarted)
     return (
       <div className="App">
@@ -153,13 +149,6 @@ class App extends Component {
             // <button className='btn btn-info' onClick={this.StartVideoChat}>
             //   Start Video Chat
             // </button>
-          }
-          {
-            // videoStreamStarted ? 
-            //   <video autoPlay='true'>
-            //     <source src={this.video_source} />
-            //   </video>
-            // : null
           }
           <div id='videohere'>
           </div>

@@ -4,10 +4,13 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.5",
+    "hls.js": "^0.8.5",
     "http": "0.0.0",
+    "mediaelement": "^4.2.6",
     "moment": "^2.18.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-file-reader": "^1.1.2",
     "react-geolocated": "^2.0.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
@@ -16,17 +19,24 @@
     "redux": "^3.7.2",
     "redux-socket.io": "^1.4.0",
     "simple-peer": "^8.1.1",
-    "socket.io-client": "^2.0.3"
+    "socket.io-client": "^2.0.3",
+    "socket.io-stream": "^0.9.1",
+    "youtube-iframe": "^1.0.3",
+    "youtube-player": "^5.4.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3002 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "compile-less": "grunt compile-less",
     "watch-less": "grunt watch"
   },
-  "proxy": "http://localhost:3001",
+  "proxy": {
+    "/socket.io": {
+      "target": "http://localhost:3001/"
+    }
+  },
   "eslintConfig": {
     "extends": "react-app"
   },

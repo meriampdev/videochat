@@ -46,7 +46,11 @@ app.use(function(err, req, res, next) {
 var http = require('http');
 var server = http.createServer();
 var socket_io = require('socket.io');
+var ss = require('socket.io-stream');
+ss.forceBase64 = true;
+var stream = ss.createStream();
 const Peer = require('simple-peer');
+const fs = require('fs')
 server.listen(3001);
 var io = socket_io();
 io.attach(server);
@@ -72,8 +76,24 @@ io.on('connection', function(socket){
     } else if (action.type === 'server/GetIniatorSignal') {
       console.log('GetIniatorSignal')
       socket.emit('action', { type: 'GetIniatorSignal', data: { signal: initiatorSignal } })
+    } else if (action.type === 'server/sendfile') {
+      // const file = action.data
+      // console.log('file', file)
+      const filename = path.basename(action.data)
+      ss(socket).emit('send-file', stream, {name: filename});
+      fs.createReadStream(filename).pipe(stream)
+    } else if (action.type === 'server/CueVideo') {
+      io.emit('action', { type: 'VideoStream', url: action.data })
+    } else if (action.type === 'server/VideoStateChange') {
+      console.log('VideoStateChange', action)
+      io.emit('action', { type: 'VideoState', status: action.data })
     }
   });
+
+  ss(socket).on('send-file', function(stream, data) {
+    var filename = path.basename(data.name);
+    stream.pipe(fs.createWriteStream(filename));
+  })
 
   socket.on('disconnect', function(data){
     console.log('user disconnected', data);
